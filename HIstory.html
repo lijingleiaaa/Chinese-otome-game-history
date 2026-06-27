@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>国乙发展史</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html{
+            scroll-behavior: auto;
+            scroll-padding-top:6rem;
+        }
+        <!--背景设置-->
+            body {
+                margin: 0;
+                font-family: "Microsoft Yahei", sans-serif;
+                min-height: 100vh;
+                /* 修复：颠倒背景层顺序（光斑在上，渐变在下） */
+                background-image:
+                        radial-gradient(rgba(216, 191, 232, 0.3) 2px, transparent 2px),
+                        radial-gradient(rgba(168, 85, 247, 0.15) 1px, transparent 1px),
+                        linear-gradient(135deg, #fef7ff 0%, #f5edf9 100%);
+                /* 修复：background-size 与 image 顺序一一对应 */
+                background-size: 60px 60px, 20px 20px, cover;
+                background-blend-mode: overlay;
+                background-repeat: repeat;
+                position: relative;
+                padding: 20px;
+                min-width: 320px;
+            }
+
+        .meteor {
+            position: absolute;
+            top: -20%;
+            width: 220px;
+            height: 2px;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(194, 147, 235, 0.4), /* 降低透明度，不遮挡背景 */
+            rgba(228, 197, 240, 0.2),
+            transparent
+            );
+            border-radius: 50%;
+            filter: blur(1px); /* 减弱模糊 */
+            transform: rotate(calc(35deg + var(--angle, 0deg)));
+            animation: meteorMove calc(15s + var(--speed, 0s)) linear infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        .meteor:nth-child(1) { --angle: 2deg; --speed: 1s; --delay: 0s; left: 3%; }
+        .meteor:nth-child(2) { --angle: 7deg; --speed: 4s; --delay: 1s; left: 10%; }
+        .meteor:nth-child(3) { --angle: 12deg; --speed: 2s; --delay: 0.5s; left: 17%; }
+        .meteor:nth-child(4) { --angle: 17deg; --speed: 5s; --delay: 2s; left: 24%; }
+        .meteor:nth-child(5) { --angle: 22deg; --speed: 3s; --delay: 1.5s; left: 31%; }
+        .meteor:nth-child(6) { --angle: 27deg; --speed: 6s; --delay: 0.8s; left: 38%; }
+        .meteor:nth-child(7) { --angle: 32deg; --speed: 2.5s; --delay: 2.2s; left: 45%; }
+        .meteor:nth-child(8) { --angle: 37deg; --speed: 4.5s; --delay: 1.2s; left: 52%; }
+        .meteor:nth-child(9) { --angle: 42deg; --speed: 3.5s; --delay: 0.3s; left: 59%; }
+        .meteor:nth-child(10) { --angle: 47deg; --speed: 5.5s; --delay: 2.5s; left: 66%; }
+        .meteor:nth-child(11) { --angle: 52deg; --speed: 1.8s; --delay: 1.8s; left: 73%; }
+        .meteor:nth-child(12) { --angle: 57deg; --speed: 3.8s; --delay: 0.7s; left: 80%; }
+        .meteor:nth-child(13) { --angle: 62deg; --speed: 4.2s; --delay: 2.1s; left: 87%; }
+        .meteor:nth-child(14) { --angle: 67deg; --speed: 2.2s; --delay: 1.1s; left: 92%; }
+        .meteor:nth-child(15) { --angle: 72deg; --speed: 5.8s; --delay: 1.7s; left: 6%; }
+
+        @keyframes meteorMove {
+            0% {
+                transform: rotate(calc(35deg + var(--angle, 0deg))) translateX(-300px);
+                opacity: 0;
+            }
+            15% { opacity: 0.7; }
+            85% { opacity: 0.7; }
+            100% {
+                transform: rotate(calc(35deg + var(--angle, 0deg))) translateX(160vw);
+                opacity: 0;
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            color: #5a4b6b;
+            font-size: 18px;
+        }
+        /*页面模块切换样式*/
+        .page-module {
+            display: none; /* 所有模块默认隐藏 */
+            opacity: 0;
+            transition: opacity 0.5s ease; /* 淡入淡出动画 */
+        }
+        .page-module.active {
+            display: block; /* 激活的模块显示 */
+            opacity: 1;
+        }
+        /*导航栏*/
+        nav {
+            z-index: 50;
+            background: linear-gradient(90deg, #f9f5fb 0%, #f0e6f0 100%); /* 左右渐变 */
+            box-shadow: 0 2px 8px rgba(138, 79, 138, 0.15); /* 淡紫色阴影 */
+            border-bottom: 1px solid rgba(216, 191, 232, 0.3); /* 细边框 */
+        }
+        nav a {
+            padding: 4px 0;
+            transition: all 0.2s ease;
+        }
+        nav a:hover {
+            background-color: rgba(216, 191, 232, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        nav a.active {
+            color: #9d65b8;
+            font-weight: bold;
+            border-bottom: 2px solid #9d65b8;
+        }
+        /*首页视频演示*/
+        .carousel-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(138, 79, 138, 0.1);
+            height: 500px; /* 固定高度，和原轮播图一致 */
+        }
+
+        /* 新增：视频样式 */
+        .bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* 新增：音频控制按钮 */
+        .audio-control-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.8);
+            color: #8a4f8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .audio-control-btn:hover {
+            background-color: #fff;
+        }
+        /* 游戏节点样式 */
+        .svg-container {
+            max-width: 500px;
+            height: 800px;
+            margin: 0 auto;
+            background-color: #f9f5fb;
+            border: 1px solid #e8d9f0;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(138, 79, 138, 0.05);
+        }
+        .game-node { cursor: pointer; transition: all 0.3s ease; }
+        .node-ellipse {
+            fill: linear-gradient(145deg, #ffffff, #fef7ff);
+            stroke: #d8bfe8;
+            stroke-width: 2;
+            rx: 55; ry: 65;
+        }
+        .game-node:hover .node-ellipse {
+            transform: scale(1.08);
+            stroke: #9d65b8;
+            stroke-width: 2.5;
+        }
+        .game-node:hover .node-ellipse {
+            transform: scale(1.08);
+            stroke: #9d65b8;
+            stroke-width: 2.5;
+        }
+        /* 弹窗通用样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 99;
+        }
+        .modal-overlay.active { display: block; }
+        .game-modal, .hero-detail-modal {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            max-width: 90%;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(138, 79, 138, 0.15);
+            z-index: 100;
+            border: 1px solid #f0e6f0;
+            animation: modalFadeIn 0.3s ease;
+        }
+        .hero-detail-modal { width: 500px; }
+        .game-modal.active, .hero-detail-modal.active { display: block; }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translate(-50%, -55%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        .close-btn {
+            border: none;
+            background: #f0e6f0;
+            color: #8a4f8a;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .close-btn:hover {
+            background: #e8d9f0;
+            color: #7a3f7a;
+        }
+        /* 男主头像板块 */
+        .hero-section {
+            padding: 6rem 1.5rem 3rem;
+            background: #fff;
+        }
+        .hero-search {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        .hero-search input {
+            width: 100%;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #e8d9f0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #f9f5fb;
+        }
+        .hero-search i {
+            position: absolute;
+            left: 15px; top: 50%;
+            transform: translateY(-50%);
+            color: #8a4f8a;
+        }
+        .hero-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+        .hero-avatar-card {
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .hero-avatar {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #f9f5fb;
+            box-shadow: 0 4px 8px rgba(138, 79, 138, 0.1);
+            transition: all 0.3s ease;
+        }
+        .hero-avatar-card:hover .hero-avatar {
+            transform: scale(1.1);
+            border-color: #d8bfe8;
+        }
+        /* 时间轴样式 */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #d8bfe8;
+            top: 0; bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px; height: 20px;
+            background: white;
+            border: 4px solid #9d65b8;
+            border-radius: 50%;
+            top: 15px; z-index: 1;
+        }
+        .left { left: 0; }
+        .right { left: 50%; }
+        .left::after { right: -10px; }
+        .right::after { left: -10px; }
+        /* 原有 .timeline-content 样式保留不变 */
+        .timeline-content {
+            padding: 90px;
+            background-color: rgba(255,255,255,0.6); /* 把background改成background-color */
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            /* 其他样式... */
+        }
+
+        /* 新增：6个时间轴项的专属背景图 */
+        .item-2017 .timeline-content {
+            background-image: url("web.video/时间轴1.jpg");
+        }
+        .item-2018 .timeline-content {
+            background-image: url("web.video/时间轴2.jpg");
+        }
+        .item-2020 .timeline-content {
+            background-image: url("web.video/时间轴3.jpg");
+        }
+        .item-2021 .timeline-content {
+            background-image: url("web.video/时间轴4.jpg");
+        }
+        .item-2022 .timeline-content {
+            background-image: url("web.video/时间轴5.jpg");
+        }
+        .item-2024 .timeline-content {
+            background-image: url("web.video/时间轴6.jpg");
+        }
+        /* 衍生产业/出圈场面卡片 */
+        .scene-card, .industry-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(138, 79, 138, 0.1);
+            border: 1px solid #f0e6f0;
+        }
+        .scene-card:hover, .industry-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(138, 79, 138, 0.15);
+        }
+        /* 世界影响标签 */
+        .influence-tab {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f0e6f0;
+            padding-bottom: 10px;
+        }
+        .tab-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #f0e6f0;
+            border-radius: 6px;
+            color: #8a4f8a;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            background: #8a4f8a;
+            color: white;
+            border-color: #8a4f8a;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: contentFade 0.3s ease; }
+        @keyframes contentFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* 响应式适配 */
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::after { left: 15px; }
+            .right { left: 0; }
+            .carousel-container { height: 200px; } /* 视频容器移动端高度 */
+            .audio-control-btn {
+                width: 30px;
+                height: 30px;
+                bottom: 10px;
+                right: 10px;
+            }
+            .hero-avatar { width: 80px; height: 80px; }
+        }
+    </style>
+</head>
+<body>
+<!-- 15颗流星元素 -->
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<div class="meteor"></div>
+<!-- 导航栏 -->
+<nav class="fixed top-0 w-full flex justify-between p-4">
+    <h1 class="text-xl font-bold text-purple-800">国产乙游发展历程</h1>
+    <div class="flex space-x-6">
+        <a href="#home" class="text-purple-700 hover:text-purple-900">首页</a>
+        <a href="#history" class="text-purple-700 hover:text-purple-900">乙游发展史</a>
+        <a href="#games" class="text-purple-700 hover:text-purple-900">六大国乙</a>
+        <a href="#heroes" class="text-purple-700 hover:text-purple-900">男主图鉴</a>
+        <a href="#scene" class="text-purple-700 hover:text-purple-900">出圈场面</a>
+        <a href="#industry" class="text-purple-700 hover:text-purple-900">衍生产业</a>
+        <a href="#influence" class="text-purple-700 hover:text-purple-900">世界影响</a>
+    </div>
+</nav>
+<!-- 1. 首页模块（核心修改：轮播图换视频 + 乙游介绍卡片位置调整） -->
+<section id="home" class="page-module active p-6 pt-24 bg-white">
+    <h2 class="text-2xl font-bold text-purple-800 mb-6 text-center">国产乙女游戏发展概况</h2>
+    <div class="carousel-container mb-8">
+
+        <video id="bg-video" class="bg-video" loop autoplay muted playsinline>
+            <source src="/web.video/首页.mp4" height="800" type="video/mp4">
+            <source src="/web.video/首页.mp4" height="800" type="video/webm">
+        </video>
+
+        <!-- 音频控制按钮 -->
+        <div id="audioControl" class="audio-control-btn">
+            <i class="fa-solid fa-volume-mute"></i>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto mt-8">
+        <div class="bg-purple-50 rounded-xl p-6 shadow-sm border border-purple-100">
+            <h3 class="text-xl font-bold text-purple-800 mb-2">乙女游戏介绍</h3>
+            <p class="text-gray-700">以女性视角为核心，围绕情感互动、剧情体验展开的恋爱养成类游戏，注重角色塑造与沉浸式叙事。</p>
+        </div>
+        <div class="bg-purple-50 rounded-xl p-6 shadow-sm border border-purple-100">
+            <h3 class="text-xl font-bold text-purple-800 mb-2">市场规模</h3>
+            <p class="text-gray-700">2024年国产乙游市场规模突破80亿元，年复合增长率达18.5%。</p>
+        </div>
+        <div class="bg-purple-50 rounded-xl p-6 shadow-sm border border-purple-100">
+            <h3 class="text-xl font-bold text-purple-800 mb-2">用户规模</h3>
+            <p class="text-gray-700">核心用户超2000万，20-35岁女性占比85%，付费意愿居女性向游戏首位。</p>
+        </div>
+        <div class="bg-purple-50 rounded-xl p-6 shadow-sm border border-purple-100">
+            <h3 class="text-xl font-bold text-purple-800 mb-2">核心作品</h3>
+            <p class="text-gray-700">2017-2024年上线核心乙游超30款，6款头部作品占90%以上市场份额。</p>
+        </div>
+    </div>
+</section>
+<!-- 2. 乙游发展史（时间轴） -->
+<section id="history" class="page-module active p-6 pt-24 bg-purple-50">
+    <h2 class="text-2xl font-bold text-purple-800 mb-8 text-center">乙游发展史 · 时间轴</h2>
+    <div class="timeline">
+        <div class="timeline-item left item-2017">">
+            <div class="timeline-content">
+                <h3 class="text-lg font-bold text-purple-800">2017年以前 · 萌芽期</h3>
+                <p class="text-gray-700">橙光游戏作为国内女性向作品代表，为乙女游戏的出现奠定基础</p>
+            </div>
+        </div>
+
+        <div class="timeline-item right item-2018">
+            <div class="timeline-content">
+                <h3 class="text-lg font-bold text-purple-800">2018-2019年 · 探索期</h3>
+                <p class="text-gray-700">《恋与制作人》上线，首创“手机互动+现实向剧情”模式，单月流水破2亿。</p>
+            </div>
+        </div>
+        <div class="timeline-item left item-2020">
+            <div class="timeline-content">
+                <h3 class="text-lg font-bold text-purple-800">2020年 · 爆发期</h3>
+                <p class="text-gray-700">米哈游、网易入局，《未定事件簿》《时空中的绘旅人》上线。</p>
+            </div>
+        </div>
+        <div class="timeline-item right item-2021">
+            <div class="timeline-content">
+                <h3 class="text-lg font-bold text-purple-800">2021年 · 精品化</h3>
+                <p class="text-gray-700">腾讯《光与夜之恋》上线，卡面/声优升级，市场规模突破40亿。</p>
+            </div>
+        </div>
+        <div class="timeline-item left item-2022">
+            <div class="timeline-content">
+                <h3 class="text-lg font-bold text-purple-800">2022-2023年 · 多元化</h3>
+                <p class="text-gray-700">《如鸢》出圈，古风权谋题材兴起，乙游题材向多元方向拓展。（注：如鸢不是国乙）</p>
+            </div>
+        </div>
+        <div class="timeline-item right item-2024">
+            <div class="timeline-content">
+                <h3 class="text-lg font-bold text-purple-800">2024年 · 3D化</h3>
+                <p class="text-gray-700">《恋与深空》上线，全3D建模，开启国产乙游3D时代。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--六大介绍-->
+<section id="games" class="page-module active p-6 pt-24 bg-white">
+    <h2 class="text-2xl font-bold text-purple-800 mb-6 text-center">六大国乙 · 核心代表作</h2>
+    <div class="svg-container">
+        <svg width="460" height="900" viewBox="0 0 460 900"
+             xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- 单竖轴连接线：贯穿所有节点 -->
+            <path class="connect-path" d="M230,100 L230,850" stroke="#d8bfe8" stroke-width="2" fill="none"/>
+
+            <!-- 1. 恋与制作人 -->
+            <g class="game-node-group" onclick="openModal('modal1')" transform="translate(230, 120)">
+                <ellipse class="node-ellipse" cx="0" cy="0" rx="40" ry="40" fill="#000" stroke="#d8bfe8" stroke-width="2"/>
+                <image class="node-image" x="-40" y="-40" width="80" height="80"
+                       xlink:href="./web.video/树状图1.jpg"
+                       preserveAspectRatio="cover"
+                       clip-path="url(#ellipse-clip)"/>
+                <text class="node-text" x="0" y="55" text-anchor="middle" fill="#fff" font-size="14">恋与制作人</text>
+            </g>
+
+            <!-- 2. 光与夜之恋 -->
+            <g class="game-node-group" onclick="openModal('modal2')" transform="translate(230, 260)">
+                <ellipse class="node-ellipse" cx="0" cy="0" rx="40" ry="40" fill="#000" stroke="#d8bfe8" stroke-width="2"/>
+                <image class="node-image" x="-40" y="-40" width="80" height="80"
+                       xlink:href="./web.video/树状图2.jpg"
+                       preserveAspectRatio="cover"
+                       clip-path="url(#ellipse-clip)"/>
+                <text class="node-text" x="0" y="55" text-anchor="middle" fill="#fff" font-size="14">光与夜之恋</text>
+            </g>
+
+            <!-- 3. 未定事件簿 -->
+            <g class="game-node-group" onclick="openModal('modal3')" transform="translate(230, 400)">
+                <ellipse class="node-ellipse" cx="0" cy="0" rx="40" ry="40" fill="#000" stroke="#d8bfe8" stroke-width="2"/>
+                <image class="node-image" x="-40" y="-40" width="80" height="80"
+                       xlink:href="./web.video/树状图3.jpg"
+                       preserveAspectRatio="cover"
+                       clip-path="url(#ellipse-clip)"/>
+                <text class="node-text" x="0" y="55" text-anchor="middle" fill="#fff" font-size="14">未定事件簿</text>
+            </g>
+
+            <!-- 4. 时空中的绘旅人 -->
+            <g class="game-node-group" onclick="openModal('modal4')" transform="translate(230, 540)">
+                <ellipse class="node-ellipse" cx="0" cy="0" rx="40" ry="40" fill="#000" stroke="#d8bfe8" stroke-width="2"/>
+                <image class="node-image" x="-40" y="-40" width="80" height="80"
+                       xlink:href="./web.video/树状图4.jpg"
+                       preserveAspectRatio="cover"
+                       clip-path="url(#ellipse-clip)"/>
+                <text class="node-text" x="0" y="55" text-anchor="middle" fill="#fff" font-size="14">时空中的绘旅人</text>
+            </g>
+
+            <!-- 5. 世界之外 -->
+            <g class="game-node-group" onclick="openModal('modal5')" transform="translate(230, 680)">
+                <ellipse class="node-ellipse" cx="0" cy="0" rx="40" ry="40" fill="#000" stroke="#d8bfe8" stroke-width="2"/>
+                <image class="node-image" x="-40" y="-40" width="80" height="80"
+                       xlink:href="./web.video/树状图5.jpg"
+                       preserveAspectRatio="cover"
+                       clip-path="url(#ellipse-clip)"/>
+                <text class="node-text" x="0" y="55" text-anchor="middle" fill="#fff" font-size="14">世界之外</text>
+            </g>
+
+            <!-- 6. 恋与深空 -->
+            <g class="game-node-group" onclick="openModal('modal6')" transform="translate(230, 820)">
+                <ellipse class="node-ellipse" cx="0" cy="0" rx="40" ry="40" fill="#000" stroke="#d8bfe8" stroke-width="2"/>
+                <image class="node-image" x="-40" y="-40" width="80" height="80"
+                       xlink:href="./web.video/树状图6.jpg"
+                       preserveAspectRatio="cover"
+                       clip-path="url(#ellipse-clip)"/>
+                <text class="node-text" x="0" y="55" text-anchor="middle" fill="#fff" font-size="14">恋与深空</text>
+            </g>
+            <style>
+                /* 1. 给整个内容的父容器添加约束（假设父容器是页面模块） */
+                .page-module {
+                    position: relative; /* 让内部绝对定位元素以它为基准 */
+                    overflow: hidden; /* 强制所有子内容不溢出 */
+                }
+
+                /* 2. 核心容器：严格限制尺寸并包含内容 */
+                .svg-container {
+                    width: 100%;
+                    max-width: 460px; /* 固定容器宽度 */
+                    height: 900px; /* 固定容器高度（与SVG高度一致） */
+                    margin: 0 auto;
+                    border: 1px solid #d8bfe8; /* 可见的框边框 */
+                    border-radius: 8px;
+                    overflow: hidden; /* 关键：裁剪所有溢出内容 */
+                    box-sizing: border-box;
+                    position: relative; /* 确保内部元素不脱离容器 */
+                }
+
+                /* 3. SVG完全填充容器，不偏移 */
+                .svg-container svg {
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                    position: static; /* 取消可能的绝对定位 */
+                }
+
+                /* 4. 节点组：修正定位偏移 */
+                .game-node-group {
+                    transform-box: fill-box; /* 确保transform基于自身定位 */
+                    transform-origin: center; /* 缩放/位移以自身为中心 */
+                }
+
+                /* 5. 文字与图片：防止溢出节点 */
+                .node-text {
+                    max-width: 80px; /* 限制文字宽度，避免超出圆形 */
+                    font-size: 14px;
+                    line-height: 1.2;
+                }
+
+                .node-image {
+                    width: 80px;
+                    height: 80px;
+                    object-fit: cover; /* 图片填充圆形，不拉伸 */
+                }
+            </style>
+            <clipPath id="ellipse-clip">
+                <ellipse cx="0" cy="0" rx="40" ry="40"/>
+            </clipPath>
+        </svg>
+    </div>
+</section>
+<!-- 4. 男主图鉴（仅头像，点击弹窗） -->
+<section id="heroes" class="page-module active hero-section">
+    <h2 class="text-2xl font-bold text-purple-800 mb-6 text-center">七大乙游 · 男主图鉴</h2>
+    <!-- 搜索框 -->
+    <div class="hero-search">
+        <i class="fa-solid fa-search"></i>
+        <input type="text" id="heroSearch" placeholder="搜索男主姓名/所属游戏..." onkeyup="searchHeroes()">
+    </div>
+    <!-- 男主头像网格 -->
+    <div class="hero-grid" id="heroGrid">
+
+        <div class="hero-grid" id="heroGrid">
+            <div class="hero-avatar-card" data-name="李泽言" data-game="恋与制作人" onclick="openHeroModal('hero1')">
+                <img src="/web.video/男主/李泽言.jpg" alt="李泽言" class="hero-avatar">
+                <div class="mt-2 text-purple-800">李泽言</div>
+            </div>
+            <!-- 2. 周棋洛（原有） -->
+            <div class="hero-avatar-card" data-name="周棋洛" data-game="恋与制作人" onclick="openHeroModal('hero2')">
+                <img src="/web.video/男主/周棋洛.jpg" alt="周棋洛" class="hero-avatar">
+                <div class="mt-2 text-purple-800">周棋洛</div>
+            </div>
+            <!-- 3. 许墨（原有） -->
+            <div class="hero-avatar-card" data-name="许墨" data-game="恋与制作人" onclick="openHeroModal('hero3')">
+                <img src="/web.video/男主/许墨.jpg" alt="许墨" class="hero-avatar">
+                <div class="mt-2 text-purple-800">许墨</div>
+            </div>
+            <!-- 4. 白起（原有） -->
+            <div class="hero-avatar-card" data-name="白起" data-game="恋与制作人" onclick="openHeroModal('hero4')">
+                <img src="/web.video/男主/白起.jpg" alt="白起" class="hero-avatar">
+                <div class="mt-2 text-purple-800">白起</div>
+            </div>
+            <!-- 5. 凌霄（原有） -->
+            <div class="hero-avatar-card" data-name="凌霄" data-game="恋与制作人" onclick="openHeroModal('hero5')">
+                <img src="/web.video/男主/凌霄.jpg" alt="凌霄" class="hero-avatar">
+                <div class="mt-2 text-purple-800">凌霄</div>
+            </div>
+            <!-- 6. 陆沉（原有） -->
+            <div class="hero-avatar-card" data-name="陆沉" data-game="光与夜之恋" onclick="openHeroModal('hero6')">
+                <img src="/web.video/男主/陆沉.jpg" alt="陆沉" class="hero-avatar">
+                <div class="mt-2 text-purple-800">陆沉</div>
+            </div>
+            <!-- 7. 萧逸（原有） -->
+            <div class="hero-avatar-card" data-name="萧逸" data-game="光与夜之恋" onclick="openHeroModal('hero7')">
+                <img src="/web.video/男主/萧逸.jpg" alt="萧逸" class="hero-avatar">
+                <div class="mt-2 text-purple-800">萧逸</div>
+            </div>
+            <!-- 8. 齐司礼（原有） -->
+            <div class="hero-avatar-card" data-name="齐司礼" data-game="光与夜之恋" onclick="openHeroModal('hero8')">
+                <img src="/web.video/男主/齐司礼.jpg" alt="齐司礼" class="hero-avatar">
+                <div class="mt-2 text-purple-800">齐司礼</div>
+            </div>
+            <!-- 9. 查理苏（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="查理苏" data-game="光与夜之恋" onclick="openHeroModal('hero9')">
+                <img src="/web.video/男主/查理苏.jpg" alt="查理苏" class="hero-avatar">
+                <div class="mt-2 text-purple-800">查理苏</div>
+            </div>
+            <!-- 10. 夏鸣星（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="夏鸣星" data-game="光与夜之恋" onclick="openHeroModal('hero10')">
+                <img src="/web.video/男主/夏鸣星.jpg" alt="夏鸣星" class="hero-avatar">
+                <div class="mt-2 text-purple-800">夏鸣星</div>
+            </div>
+            <!-- 11. 夏彦（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="夏彦" data-game="未定事件簿" onclick="openHeroModal('hero11')">
+                <img src="/web.video/男主/夏彦.jpg" alt="夏彦" class="hero-avatar">
+                <div class="mt-2 text-purple-800">夏彦</div>
+            </div>
+            <!-- 12. 左然（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="左然" data-game="未定事件簿" onclick="openHeroModal('hero12')">
+                <img src="/web.video/男主/左然.jpg" alt="左然" class="hero-avatar">
+                <div class="mt-2 text-purple-800">左然</div>
+            </div>
+            <!-- 13. 莫奕（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="莫奕" data-game="未定事件簿" onclick="openHeroModal('hero13')">
+                <img src="/web.video/男主/莫奕.jpg" alt="莫奕" class="hero-avatar">
+                <div class="mt-2 text-purple-800">莫奕</div>
+            </div>
+            <!-- 14. 陆景和（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="陆景和" data-game="未定事件簿" onclick="openHeroModal('hero14')">
+                <img src="/web.video/男主/陆景和.jpg" alt="陆景和" class="hero-avatar">
+                <div class="mt-2 text-purple-800">陆景和</div>
+            </div>
+            <!-- 15. 艾因（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="艾因" data-game="时空中的绘旅人" onclick="openHeroModal('hero15')">
+                <img src="/web.video/男主/艾因.jpg" alt="艾因" class="hero-avatar">
+                <div class="mt-2 text-purple-800">艾因</div>
+            </div>
+            <!-- 16. 路辰（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="路辰" data-game="时空中的绘旅人" onclick="openHeroModal('hero16')">
+                <img src="/web.video/男主/路辰.jpg" alt="路辰" class="hero-avatar">
+                <div class="mt-2 text-purple-800">路辰</div>
+            </div>
+            <!-- 17. 罗夏（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="罗夏" data-game="时空中的绘旅人" onclick="openHeroModal('hero17')">
+                <img src="/web.video/男主/罗夏.jpg" alt="罗夏" class="hero-avatar">
+                <div class="mt-2 text-purple-800">罗夏</div>
+            </div>
+            <!-- 18. 司岚（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="司岚" data-game="时空中的绘旅人" onclick="openHeroModal('hero18')">
+                <img src="/web.video/男主/司岚.jpg" alt="司岚" class="hero-avatar">
+                <div class="mt-2 text-purple-800">司岚</div>
+            </div>
+            <!-- 19. 叶瑄（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="叶瑄" data-game="时空中的绘旅人" onclick="openHeroModal('hero19')">
+                <img src="/web.video/男主/叶瑄.jpg" alt="叶瑄" class="hero-avatar">
+                <div class="mt-2 text-purple-800">叶瑄</div>
+            </div>
+            <!-- 20. 顾时夜（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="顾时夜" data-game="世界之外" onclick="openHeroModal('hero20')">
+                <img src="/web.video/男主/顾时夜.jpg" alt="顾时夜" class="hero-avatar">
+                <div class="mt-2 text-purple-800">顾时夜</div>
+            </div>
+            <!-- 21. 易遇（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="易遇" data-game="世界之外" onclick="openHeroModal('hero21')">
+                <img src="/web.video/男主/易遇.jpg" alt="易遇" class="hero-avatar">
+                <div class="mt-2 text-purple-800">易遇</div>
+            </div>
+            <!-- 22. 柏源（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="柏源" data-game="世界之外" onclick="openHeroModal('hero22')">
+                <img src="/web.video/男主/柏源.jpg" alt="柏源" class="hero-avatar">
+                <div class="mt-2 text-purple-800">柏源</div>
+            </div>
+            <!-- 23. 夏萧因（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="夏萧因" data-game="世界之外" onclick="openHeroModal('hero23')">
+                <img src="/web.video/男主/夏萧因.jpg" alt="夏萧因" class="hero-avatar">
+                <div class="mt-2 text-purple-800">夏萧因</div>
+            </div>
+            <!-- 24. 沈星回（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="沈星回" data-game="恋与深空" onclick="openHeroModal('hero24')">
+                <img src="/web.video/男主/沈星回.jpg" alt="沈星回" class="hero-avatar">
+                <div class="mt-2 text-purple-800">沈星回</div>
+            </div>
+            <!-- 25. 黎深（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="黎深" data-game="恋与深空" onclick="openHeroModal('hero25')">
+                <img src="/web.video/男主/黎深.jpg" alt="黎深" class="hero-avatar">
+                <div class="mt-2 text-purple-800">黎深</div>
+            </div>
+            <!-- 26. 祁煜（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="祁煜" data-game="恋与深空" onclick="openHeroModal('hero26')">
+                <img src="/web.video/男主/祁煜.jpg" alt="祁煜" class="hero-avatar">
+                <div class="mt-2 text-purple-800">祁煜</div>
+            </div>
+            <!-- 27. 秦彻（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="秦彻" data-game="恋与深空" onclick="openHeroModal('hero27')">
+                <img src="/web.video/男主/秦彻.jpg" alt="秦彻" class="hero-avatar">
+                <div class="mt-2 text-purple-800">秦彻</div>
+            </div>
+            <!-- 28. 夏以昼（按指定顺序） -->
+            <div class="hero-avatar-card" data-name="夏以昼" data-game="恋与深空" onclick="openHeroModal('hero28')">
+                <img src="/web.video/男主/夏以昼.jpg" alt="夏以昼" class="hero-avatar">
+                <div class="mt-2 text-purple-800">夏以昼</div>
+            </div>
+            <!-- 29. 傅融（按最新指定顺序） -->
+            <div class="hero-avatar-card" data-name="傅融" data-game="如鸢" onclick="openHeroModal('hero29')">
+                <img src="/web.video/男主/傅融.jpg" alt="傅融" class="hero-avatar">
+                <div class="mt-2 text-purple-800">傅融</div>
+            </div>
+            <!-- 30. 刘辩（按最新指定顺序） -->
+            <div class="hero-avatar-card" data-name="刘辩" data-game="如鸢" onclick="openHeroModal('hero30')">
+                <img src="/web.video/男主/刘辩.jpg" alt="刘辩" class="hero-avatar">
+                <div class="mt-2 text-purple-800">刘辩</div>
+            </div>
+            <!-- 31. 孙策（按最新指定顺序） -->
+            <div class="hero-avatar-card" data-name="孙策" data-game="如鸢" onclick="openHeroModal('hero31')">
+                <img src="/web.video/男主/孙策.jpg" alt="孙策" class="hero-avatar">
+                <div class="mt-2 text-purple-800">孙策</div>
+            </div>
+            <!-- 32. 袁基（按最新指定顺序） -->
+            <div class="hero-avatar-card" data-name="袁基" data-game="如鸢" onclick="openHeroModal('hero32')">
+                <img src="/web.video/男主/袁基.jpg" alt="袁基" class="hero-avatar">
+                <div class="mt-2 text-purple-800">袁基</div>
+            </div>
+            <!-- 33. 左慈（按最新指定顺序） -->
+            <div class="hero-avatar-card" data-name="左慈" data-game="如鸢" onclick="openHeroModal('hero33')">
+                <img src="/web.video/男主/左慈.jpg" alt="左慈" class="hero-avatar">
+                <div class="mt-2 text-purple-800">左慈</div>
+            </div>
+</section>
+
+<!-- 5. 出圈场面 -->
+<!-- 5. 出圈场面 -->
+<section id="scene" class="page-module active p-6 pt-24 bg-purple-50">
+    <h2 class="text-2xl font-bold text-purple-800 mb-6 text-center">国乙出圈名场面</h2>
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 每个卡片添加data-search-keywords属性存储搜索关键词 -->
+        <div class="scene-card" data-search-keywords="恋与制作人 李泽言 纽约时代广场大屏 2018">
+            <h3 class="text-lg font-bold text-purple-800 mb-2">《恋与制作人》× 线下应援</h3>
+            <p class="text-gray-700">2018年情人节，玩家为李泽言包下纽约时代广场大屏，登上微博热搜Top3。</p>
+        </div>
+        <div class="scene-card" data-search-keywords="光与夜之恋 喜茶联名 话题阅读量10亿">
+            <h3 class="text-lg font-bold text-purple-800 mb-2">《光与夜之恋》× 喜茶联名</h3>
+            <p class="text-gray-700">2022年联名引发线下排队，话题阅读量超10亿，门店销量翻倍。</p>
+        </div>
+        <div class="scene-card" data-search-keywords="恋与深空 肯德基联名 短视频播放量5亿">
+            <h3 class="text-lg font-bold text-purple-800 mb-2">《恋与深空》× 肯德基</h3>
+            <p class="text-gray-700">2024年联名套餐售罄，短视频播放量超5亿，刷新乙游联名纪录。</p>
+        </div>
+        <div class="scene-card" data-search-keywords="如鸢 扬州文旅联动 消费增长15%">
+            <h3 class="text-lg font-bold text-purple-800 mb-2">《如鸢》× 扬州文旅</h3>
+            <p class="text-gray-700">2023年联动文旅景点，沉浸式体验带动消费增长15%。</p>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* 卡片样式美化，添加鼠标悬浮效果提示可点击 */
+    .scene-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 8px rgba(128, 90, 213, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer; /* 鼠标变成手型，提示可点击 */
+        border: 1px solid transparent;
+    }
+
+    .scene-card:hover {
+        transform: translateY(-5px); /* 轻微上浮 */
+        box-shadow: 0 8px 16px rgba(128, 90, 213, 0.15);
+        border-color: #d8b4fe; /* 紫色边框提示 */
+    }
+
+    /* 可选：添加点击反馈效果 */
+    .scene-card:active {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(128, 90, 213, 0.1);
+    }
+</style>
+
+<script>
+    // 等待页面DOM加载完成
+    document.addEventListener('DOMContentLoaded', function() {
+        const sceneCards = document.querySelectorAll('.scene-card');
+
+        // 配置搜索平台（二选一，或可添加切换逻辑）
+        const SEARCH_PLATFORM = 'baidu'; // 可选值：'baidu'（百度）、'douyin'（抖音）
+
+        sceneCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // 获取卡片的搜索关键词
+                const keywords = this.getAttribute('data-search-keywords');
+
+                if (keywords && keywords.trim() !== '') {
+                    // 对关键词进行URL编码（处理中文/空格等特殊字符）
+                    const encodedKeywords = encodeURIComponent(keywords);
+                    let searchUrl = '';
+
+                    // 根据选择的平台拼接搜索链接
+                    if (SEARCH_PLATFORM === 'douyin') {
+                        // 抖音搜索链接格式
+                        searchUrl = `https://www.douyin.com/search/${encodedKeywords}?aid=0&type=general`;
+                    } else {
+                        // 百度搜索链接格式（默认）
+                        searchUrl = `https://www.baidu.com/s?wd=${encodedKeywords}`;
+                    }
+
+                    // 在新标签页打开搜索结果（避免替换当前页面）
+                    window.open(searchUrl, '_blank', 'noopener noreferrer');
+                } else {
+                    alert('暂无相关搜索关键词');
+                }
+            });
+        });
+    });
+</script>
+
+<!-- 6. 衍生产业 -->
+<section id="industry" class="page-module active p-6 pt-24 bg-white">
+    <h2 class="text-2xl font-bold text-purple-800 mb-6 text-center">乙游衍生产业生态</h2>
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="industry-card text-center">
+            <i class="fa-solid fa-gift text-purple-700 text-4xl mb-4"></i>
+            <a href="https://www.baidu.com/s?wd=乙游周边衍生品 行业新闻&tn=news" target="_blank" class="block">
+                <h3 class="text-lg font-bold text-purple-800 mb-2 hover:text-purple-600 transition-colors">周边衍生品</h3>
+                <p class="text-gray-700 hover:text-purple-600 transition-colors">年销售额超10亿，二手市场溢价最高达500%。</p>
+            </a>
+        </div>
+
+        <div class="industry-card text-center">
+            <i class="fa-solid fa-map-location-dot text-purple-700 text-4xl mb-4"></i>
+            <a href="https://www.baidu.com/s?wd=乙游线下打卡点 活动资讯&tn=news" target="_blank" class="block">
+                <h3 class="text-lg font-bold text-purple-800 mb-2 hover:text-purple-600 transition-colors">线下打卡生态</h3>
+                <p class="text-gray-700 hover:text-purple-600 transition-colors">超200个主题打卡点，单点位年均引流超10万人次。</p>
+            </a>
+        </div>
+
+        <div class="industry-card text-center">
+            <i class="fa-solid fa-microphone-lines text-purple-700 text-4xl mb-4"></i>
+            <a href="https://www.baidu.com/s?wd=乙游声优产业 商业价值&tn=news" target="_blank" class="block">
+                <h3 class="text-lg font-bold text-purple-800 mb-2 hover:text-purple-600 transition-colors">声优产业</h3>
+                <p class="text-gray-700 hover:text-purple-600 transition-colors">见面会门票溢价超10倍，头部声优年商演收入超500万。</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 7. 世界影响 -->
+<section id="influence" class="page-module active p-6 pt-24 bg-purple-50 pb-16">
+    <h2 class="text-2xl font-bold text-purple-800 mb-6 text-center">国乙的世界影响</h2>
+    <div class="max-w-5xl mx-auto bg-white rounded-xl p-8 shadow-sm border border-purple-100">
+        <div class="influence-tab">
+            <button class="tab-btn active" data-tab="culture" onclick="switchTab('culture')">文化输出</button>
+            <button class="tab-btn" data-tab="industry" onclick="switchTab('industry')">行业影响</button>
+            <button class="tab-btn" data-tab="data" onclick="switchTab('data')">核心数据</button>
+        </div>
+        <!-- 文化输出 -->
+        <div class="tab-content active" id="culture">
+            <p class="text-gray-700 mb-4">《恋与深空》《光与夜之恋》等登陆东南亚、日韩市场，传递中国都市/古风文化，《恋与制作人》海外流水超5亿美元。</p>
+            <p class="text-gray-700">海外玩家自发成立汉化组、线下应援团，成为女性向文化输出重要载体。</p>
+        </div>
+        <!-- 行业影响 -->
+        <div class="tab-content" id="industry">
+            <p class="text-gray-700 mb-4">国产乙游“情感互动+长线运营”模式被日韩厂商借鉴，融入朋友圈互动、现实向剧情等特色玩法。</p>
+            <p class="text-gray-700">叠纸、米哈游跻身全球女性向游戏核心厂商，推动行业标准升级。</p>
+        </div>
+        <!-- 核心数据 -->
+        <div class="tab-content" id="data">
+            <div class="flex items-center gap-4 mb-4">
+                <i class="fa-solid fa-arrow-trend-up text-purple-700 text-2xl"></i>
+                <div>
+                    <div class="text-2xl font-bold text-purple-800">18.5%</div>
+                    <div class="text-sm text-gray-600">国乙出海年复合增长率</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 mb-4">
+                <i class="fa-solid fa-users-line text-purple-700 text-2xl"></i>
+                <div>
+                    <div class="text-2xl font-bold text-purple-800">800万+</div>
+                    <div class="text-sm text-gray-600">海外核心用户规模</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <i class="fa-solid fa-handshake text-purple-700 text-2xl"></i>
+                <div>
+                    <div class="text-2xl font-bold text-purple-800">20+</div>
+                    <div class="text-sm text-gray-600">海外品牌联名次数</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 遮罩层 -->
+<div class="modal-overlay" id="overlay" onclick="closeAllModals()"></div>
+
+<!-- 游戏详情弹窗（6个） -->
+<div id="modal1" class="game-modal">
+    <h3 class="text-xl font-bold text-purple-800 mb-4">恋与制作人</h3>
+    <p class="text-gray-700 mb-4">叠纸 2017 年上线的国乙标杆，运营近 8 年仍热度不减。作为许多玩家的 "国乙初恋"，以超现实剧情 + 长线陪伴感出圈，不断迭代互动玩法，堪称乙游界的 "长青树"。</p>
+    <!-- 新增 controls 属性，启用原生控制栏 -->
+    <video class="w-full h-60 object-cover rounded-lg mb-4" muted loop autoplay playsinline controls>
+        <source src="/web.video/六大1.mp4" type="video/mp4">
+    </video>
+    <a href="https://evol.papegames.cn/" target="_blank" class="official-link-btn">进入官网</a>
+    <button class="close-btn" onclick="closeModal('modal1')">关闭</button>
+</div>
+<div id="modal2" class="game-modal">
+    <h3 class="text-xl font-bold text-purple-800 mb-4">光与夜之恋</h3>
+    <p class="text-gray-700 mb-4">腾讯旗舰乙游，"时尚 + 奇幻" 风格，精致美术 + 豪华声优，剧情围绕光暗抉择,物价便宜，背靠大厂，乙游界的蜜雪冰城</p>
+    <video class="w-full h-60 object-cover rounded-lg mb-4" muted loop autoplay playsinline controls>
+        <source src="/web.video/六大2.mp4" type="video/mp4">
+    </video>
+    <a href="https://love.qq.com/main.html" target="_blank" class="official-link-btn">进入官网</a>
+    <button class="close-btn" onclick="closeModal('modal2')">关闭</button>
+</div>
+<div id="modal3" class="game-modal">
+    <h3 class="text-xl font-bold text-purple-800 mb-4">未定事件簿</h3>
+    <p class="text-gray-700 mb-4">米哈游律政恋爱乙游，化身律师破解悬案，推理与甜蜜互动双线并行，乙游里最不打打杀杀的。</p>
+    <video class="w-full h-60 object-cover rounded-lg mb-4" muted loop autoplay playsinline controls>
+        <source src="/web.video/六大3.mp4" type="video/mp4">
+    </video>
+    <a href="https://wd.mihoyo.com" target="_blank" class="official-link-btn">进入官网</a>
+    <button class="close-btn" onclick="closeModal('modal3')">关闭</button>
+</div>
+<div id="modal4" class="game-modal">
+    <h3 class="text-xl font-bold text-purple-800 mb-4">时空中的绘旅人</h3>
+    <p class="text-gray-700 mb-4">网易时空穿越乙游，画风唯美华丽，多世界线冒险，选择影响故事走向。抽卡最容易歪，越氪越非酋，继承网易优良传统</p>
+    <video class="w-full h-60 object-cover rounded-lg mb-4" muted loop autoplay playsinline controls>
+        <source src="/web.video/六大4.mp4" type="video/mp4">
+    </video>
+    <a href="https://hlr.163.com/fab/" target="_blank" class="official-link-btn">进入官网</a>
+    <button class="close-btn" onclick="closeModal('modal4')">关闭</button>
+</div>
+<div id="modal5" class="game-modal">
+    <h3 class="text-xl font-bold text-purple-800 mb-4">世界之外</h3>
+    <p class="text-gray-700 mb-4">网易无限流乙游，穿梭多元副本，与男主轮回重逢，题材新颖亮眼。但物价贵，一周攒不出来一抽，怎么不算网易传统的延续</p>
+    <video class="w-full h-60 object-cover rounded-lg mb-4" muted loop autoplay playsinline controls>
+        <source src="/web.video/六大5.mp4" type="video/mp4">
+    </video>
+    <a href="https://world.163.com/" target="_blank" class="official-link-btn">进入官网</a>
+    <button class="close-btn" onclick="closeModal('modal5')">关闭</button>
+</div>
+<div id="modal6" class="game-modal">
+    <h3 class="text-xl font-bold text-purple-800 mb-4">恋与深空</h3>
+    <p class="text-gray-700 mb-4">恋与系列续作，科幻恋爱主题，3D 互动 + 宇宙冒险，沉浸式体验升级，最近卡面越来越蹦，线下谷非常少</p>
+    <video class="w-full h-60 object-cover rounded-lg mb-4" muted loop autoplay playsinline controls>
+        <source src="/web.video/六大6.mp4" type="video/mp4">
+    </video>
+    <a href="https://deepspace.papegames.com/home" target="_blank" class="official-link-btn">进入官网</a>
+    <button class="close-btn" onclick="closeModal('modal6')">关闭</button>
+</div>
+
+<!-- 补充关闭模态框时暂停视频的逻辑 -->
+<script>
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        const video = modal.querySelector('video');
+        if (video) {
+            video.pause();
+        }
+    }
+</script>
+
+<!-- 男主详情弹窗 -->
+<div id="hero1" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/李泽言.jpg" alt="李泽言" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">李泽言</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与制作人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>华锐集团的总裁，餐厅 Souvenir 的店长兼主厨</p>
+        <p><strong>生日：</strong>1.13</p>
+        <p><strong>人设：</strong>性格沉稳、成熟，对员工比较严厉，做事尽心尽力，有轻度近视</p>
+        <p><strong>热梗：</strong>李总有黑卡</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero1')">关闭</button>
+</div>
+
+<!-- 2. 周棋洛（恋与制作人） -->
+<div id="hero2" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/周棋洛.jpg" alt="周棋洛" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">周棋洛</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与制作人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>超级巨星，顶级黑客Key</p>
+        <p><strong>人设：</strong>性格开朗热情、活泼可爱</p>
+        <p><strong>生日：</strong>4.9</p>
+        <p><strong>热梗：</strong>薯片小姐</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero2')">关闭</button>
+</div>
+
+<!-- 3. 许墨（恋与制作人） -->
+<div id="hero3" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/许墨.jpg" alt="许墨" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">许墨</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与制作人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>恋语大学博士生导师</p>
+        <p><strong>人设：</strong>表面性格温润，实则病娇</p>
+        <p><strong>生日：</strong>11.15</p>
+        <p><strong>热梗：</strong>我一个人不可以</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero3')">关闭</button>
+</div>
+
+<!-- 4. 白起（恋与制作人） -->
+<div id="hero4" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/白起.jpg" alt="白起" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">白起</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与制作人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>恋语市公安总局 Evol 特警</p>
+        <p><strong>人设：</strong>性格正直、勇敢，情绪稳定且有耐心，青梅竹马</p>
+        <p><strong>生日：</strong>7.29</p>
+        <p><strong>热梗：</strong>凌霄飞车</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero4')">关闭</button>
+</div>
+
+<!-- 5. 凌霄（恋与制作人） -->
+<div id="hero5" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/凌霄.jpg" alt="凌霄" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">凌霄</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与制作人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>恋与大学考古系研究生</p>
+        <p><strong>人设：</strong>性格张扬不羁、嘴硬心软，傲娇且毒舌</p>
+        <p><strong>生日：</strong>6.12</p>
+        <p><strong>热梗：</strong>热的可乐</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero5')">关闭</button>
+</div>
+
+<!-- 6. 陆沉（光与夜之恋） -->
+<div id="hero6" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/陆沉.jpg" alt="陆沉" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">陆沉</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">光与夜之恋</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>万甄集团CEO</p>
+        <p><strong>人设：</strong>年上天菜，温柔腹黑</p>
+        <p><strong>生日：</strong>1.22</p>
+        <p><strong>热梗：</strong>兔子小姐</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero6')">关闭</button>
+</div>
+
+<!-- 7. 萧逸（光与夜之恋） -->
+<div id="hero7" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/萧逸.jpg" alt="萧逸" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">萧逸</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">光与夜之恋</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>职业赛车手（Glitter Bullet 车队）、LONGDAY工会赏金猎人</p>
+        <p><strong>人设：</strong>热烈直接、桀骜洒脱，痞气中带温柔；擅长机车改装与竞速，行动派，护短，对 “萧小五” 明恋明爽。</p>
+        <p><strong>生日：</strong>11.23</p>
+        <p><strong>热梗：</strong>光启车王</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero7')">关闭</button>
+</div>
+
+<!-- 8. 齐司礼（光与夜之恋） -->
+<div id="hero8" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/齐司礼.jpg" alt="齐司礼" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">齐司礼</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">光与夜之恋</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>顶级设计师、前灵族将军</p>
+        <p><strong>生日：</strong>9.1</p>
+        <p><strong>人设：</strong>毒舌傲娇、口嫌体正直，细节控，厨艺与设计双绝；内心孤寂，行动大于言语。</p>
+        <p><strong>热梗：</strong>你根本没有理解题目的真正含义</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero8')">关闭</button>
+</div>
+
+<!-- 9. 查理苏（光与夜之恋） -->
+<div id="hero9" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/查理苏.jpg" alt="查理苏" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">查理苏</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">光与夜之恋</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>烧伤整形科医生、NOVATEN 药业集团唯一继承人</p>
+        <p><strong>人设：</strong>自信张扬、自恋幽默，人称 “钻石王老五”（55）；专业靠谱，对未婚妻宠溺，常用第三人称自称 “Charlie”。</p>
+        <p><strong>生日：</strong>7.24</p>
+        <p><strong>热梗：</strong>重金悬赏未婚妻</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero9')">关闭</button>
+</div>
+
+<!-- 10. 夏鸣星（光与夜之恋） -->
+<div id="hero10" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/夏鸣星.jpg" alt="夏鸣星" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">夏鸣星</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">光与夜之恋</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>音乐剧演员</p>
+        <p><strong>人设：</strong>青梅竹马、元气黏人，犬系男友；台上耀眼，台下撒娇，偶有白切黑腹黑感。</p>
+        <p><strong>生日：</strong>5.26</p>
+        <p><strong>热梗：</strong>180.5cm</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero10')">关闭</button>
+</div>
+
+<!-- 11. 夏彦（未定事件簿） -->
+<div id="hero11" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/夏彦.jpg" alt="夏彦" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">夏彦</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">未定事件簿</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>私家侦探、时光古物店店主；实为国家安全部特工</p>
+        <p><strong>人设：</strong>青梅竹马、阳光开朗、全能可靠，特工技能拉满；面对感情时会紧张，行动派守护</p>
+        <p><strong>生日：</strong>12.5</p>
+        <p><strong>热梗：</strong>被大鹅追</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero11')">关闭</button>
+</div>
+
+<!-- 12. 左然（未定事件簿） -->
+<div id="hero12" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/左然.jpg" alt="左然" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">左然</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">未定事件簿</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>忒弥斯律师事务所高级合伙人</p>
+        <p><strong>人设：</strong>胜率 99% 的精英律师，冷静理智、克制有礼；反差萌：私下看恋爱心理学、讲冷笑话、开车很稳。</p>
+        <p><strong>生日：</strong>4.26</p>
+        <p><strong>热梗：</strong>“救救我救救我”“我帮你告到和印破产”</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero12')">关闭</button>
+</div>
+
+<!-- 13. 莫奕（未定事件簿） -->
+<div id="hero13" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/莫奕.jpg" alt="莫奕" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">莫奕</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">未定事件簿</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>顶尖心理医生、未名大学客座教授；斯沃尔特贵族后裔</p>
+        <p><strong>人设：</strong>优雅温柔、洞察力强，表面绅士，内心腹黑；擅长心理博弈，私下会撒娇、开车、茶艺满级</p>
+        <p><strong>生日：</strong>9.27</p>
+        <p><strong>热梗：</strong>小孩子就是黏牙</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero13')">关闭</button>
+</div>
+
+<!-- 14. 陆景和（未定事件簿） -->
+<div id="hero14" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/陆景和.jpg" alt="陆景和" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">陆景和</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">未定事件簿</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>和印集团执行总裁、新锐画家 “Z”</p>
+        <p><strong>人设：</strong>年下总裁、高攻低防，表面玩世不恭，实则深情可靠；爱叫 “姐姐”，撩人反被撩</p>
+        <p><strong>生日：</strong>6.21</p>
+        <p><strong>热梗：</strong>陆十五亿</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero14')">关闭</button>
+</div>
+
+<!-- 15. 艾因（时空中的绘旅人） -->
+<div id="hero15" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/艾因.jpg" alt="艾因" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">艾因</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">时空中的绘旅人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>圣塞西尔学院音乐系天才；叶塞大陆复仇王子、乐园世界战团首领、灵界狼主、千之帝国牧首</p>
+        <p><strong>人设：</strong>外冷内热、傲娇猫系，钢琴与战斗双强；口硬心软，行动派守护</p>
+        <p><strong>生日：</strong>11.15</p>
+        <p><strong>热梗：</strong>我很贵</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero15')">关闭</button>
+</div>
+
+<!-- 16. 路辰（时空中的绘旅人） -->
+<div id="hero16" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/路辰.jpg" alt="路辰" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">路辰</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">时空中的绘旅人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>圣塞西尔学院天文系学长；叶塞大陆法师、乐园主人</p>
+        <p><strong>人设：</strong>温柔治愈、细节控、喜欢让小画家喝香叶茶</p>
+        <p><strong>生日：</strong>3.19</p>
+        <p><strong>热梗：</strong>只要我见到她，她就是我的了</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero16')">关闭</button>
+</div>
+
+<!-- 17. 罗夏（时空中的绘旅人） -->
+<div id="hero17" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/罗夏.jpg" alt="罗夏" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">罗夏</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">时空中的绘旅人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>费森尤顿集团总裁、圣塞西尔投资人；叶塞大陆暴君、乐园向导</p>
+        <p><strong>人设：</strong>阳光跳脱，直球</p>
+        <p><strong>生日：</strong>8.5</p>
+        <p><strong>热梗：</strong>光明正义的白银骑士，一次两次的对别人的妻子出手，是不是有点太掉价了</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero17')">关闭</button>
+</div>
+
+<!-- 18. 司岚（时空中的绘旅人） -->
+<div id="hero18" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/司岚.jpg" alt="司岚" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">司岚</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">时空中的绘旅人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>圣塞西尔学院律政系学长、学生会会长，叶塞大陆首席法师、帝国前行者</p>
+        <p><strong>人设：</strong>冷静理智、责任感强、泪痣禁欲，外冷内热</p>
+        <p><strong>生日：</strong>10.17</p>
+        <p><strong>热梗：</strong>你的未来，光辉灿烂</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero18')">关闭</button>
+</div>
+
+<!-- 19. 叶瑄（时空中的绘旅人） -->
+<div id="hero19" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/叶瑄.jpg" alt="叶瑄" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">叶瑄</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">时空中的绘旅人</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>圣塞西尔美术系导师；叶塞大陆白银骑士、千之帝国白银提督</p>
+        <p><strong>人设：</strong>优雅温柔、全能可靠、白长直美人，外柔内刚，守护与引导者</p>
+        <p><strong>生日：</strong>12.31</p>
+        <p><strong>热梗：</strong>一切为了地瓜</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero19')">关闭</button>
+</div>
+
+<!-- 20. 顾时夜（世界之外） -->
+<div id="hero20" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/顾时夜.jpg" alt="顾时夜" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">顾时夜</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">世界之外</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>洛宁军事统帅，银非集团CEO</p>
+        <p><strong>人设：</strong>高冷稳重的 “事业哥”，嗯。</p>
+        <p><strong>生日：</strong>11.22</p>
+        <p><strong>热梗：</strong>“像素哥”“曹光彪，她背后的人是我”</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero20')">关闭</button>
+</div>
+
+<!-- 21. 易遇（世界之外） -->
+<div id="hero21" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/易遇.jpg" alt="易遇" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">易遇</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">世界之外</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>医生，复生集团CEO</p>
+        <p><strong>人设：</strong>沉稳成熟的 “安心型” 男主，情绪稳定、心思细腻，控制欲强，病娇一个。</p>
+        <p><strong>生日：</strong>12.31</p>
+        <p><strong>热梗：</strong>姑姑你好，我是姑父</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero21')">关闭</button>
+</div>
+
+<!-- 22. 柏源（世界之外） -->
+<div id="hero22" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/柏源.jpg" alt="柏源" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">柏源</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">世界之外</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>南洲国海军统领，知名网球运动员</p>
+        <p><strong>人设：</strong>阳光忠犬系，身材健美、武力值超高，厨艺好且喜欢草编兔子</p>
+        <p><strong>生日：</strong>4.15</p>
+        <p><strong>热梗：</strong>高速口检票员</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero22')">关闭</button>
+</div>
+
+<!-- 23. 夏萧因（世界之外） -->
+<div id="hero23" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/夏萧因.jpg" alt="夏萧因" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">夏萧因</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">世界之外</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>东大洲摄政王，作曲家</p>
+        <p><strong>人设：</strong>银发紫眸的傲娇美人，表面优雅高冷、杀伐决断，实际纯情孩子气，对玩家嘴硬心软、口嫌体正直。</p>
+        <p><strong>生日：</strong>9.10</p>
+        <p><strong>热梗：</strong>你喜欢他什么，喜欢他老，喜欢他丑，还是喜欢他是个破落户</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero23')">关闭</button>
+</div>
+
+<!-- 24. 沈星回（恋与深空） -->
+<div id="hero24" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/沈星回.jpg" alt="沈星回" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">沈星回</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与深空</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>深空猎人，菲罗斯星王子</p>
+        <p><strong>人设：</strong>温柔可靠、责任感强，光系净化治愈；嗜睡、饭量大、爱下厨与弹钢琴，偶尔狡黠。</p>
+        <p><strong>生日：</strong>10.16</p>
+        <p><strong>热梗：</strong>你就那么喜欢光猎吗</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero24')">关闭</button>
+</div>
+
+<!-- 25. 黎深（恋与深空） -->
+<div id="hero25" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/黎深.jpg" alt="黎深" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">黎深</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与深空</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>Akso医院心脏外科主任医师</p>
+        <p><strong>人设：</strong>温柔空降型竹马，爱吃甜食，爱讲冷笑话，禁欲年上高智天花板</p>
+        <p><strong>生日：</strong>9.5</p>
+        <p><strong>热梗：</strong>开心主任</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero25')">关闭</button>
+</div>
+
+<!-- 26. 祁煜（恋与深空） -->
+<div id="hero26" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/祁煜.jpg" alt="祁煜" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">祁煜</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与深空</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>艺术家，利莫里亚海神</p>
+        <p><strong>人设：</strong>古灵精怪、浪漫热烈，火系创生与攻击；对称控、直球互动、金句频出。</p>
+        <p><strong>生日：</strong>3.6</p>
+        <p><strong>热梗：</strong>你还记得是今天早上啊，等你等了八百年，水母都会走路了，海龟都能爬树了，连鲨鱼都改吃素了，你呢，现在想起来，医院里，还有一个我</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero26')">关闭</button>
+</div>
+
+<!-- 27. 秦彻（恋与深空） -->
+<div id="hero27" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/秦彻.jpg" alt="秦彻" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">秦彻</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与深空</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>暗点组织首领</p>
+        <p><strong>人设：</strong>神秘果决、气场强大，能量操控，乌鸦意象，台词带压迫感与反差萌。</p>
+        <p><strong>生日：</strong>4.18</p>
+        <p><strong>热梗：</strong>梅菲斯特</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero27')">关闭</button>
+</div>
+
+<!-- 28. 夏以昼（恋与深空） -->
+<div id="hero28" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/夏以昼.jpg" alt="夏以昼" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">夏以昼</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">恋与深空</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>远空舰队执舰官，DAA 战斗机飞行员，你的哥哥</p>
+        <p><strong>人设：</strong>坚毅热血、责任感强、温柔稳重，明暗反差明显，隐忍克制下藏着极强的保护欲与占有欲</p>
+        <p><strong>生日：</strong>6.13</p>
+        <p><strong>热梗：</strong>不需要我？......</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero28')">关闭</button>
+</div>
+
+<!-- 29. 傅融（如鸢） -->
+<div id="hero29" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/傅融.jpg" alt="傅融" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">傅融</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">如鸢</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>文曲尉，绣衣楼副官</p>
+        <p><strong>人设：</strong>毒舌抠门、务实可靠，工作狂、爱狗（飞云）、攒钱买房；默默守护，细节见温柔。</p>
+        <p><strong>生日：</strong>12，23</p>
+        <p><strong>热梗：</strong>白眼出圈；攒82年买房</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero29')">关闭</button>
+</div>
+
+<!-- 30. 刘辩（如鸢） -->
+<div id="hero30" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/刘辩.jpg" alt="刘辩" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">刘辩</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">如鸢</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>东汉少帝；五斗米教主张道陵</p>
+        <p><strong>人设：</strong>隐鸢阁青梅竹马,疯批美人、病娇作精，极致依赖与占有欲；乖张脆弱、爱酒、怕孤独，台词直白又偏执。</p>
+        <p><strong>生日：</strong>2.28</p>
+        <p><strong>热梗：</strong>广陵王</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero30')">关闭</button>
+</div>
+
+<!-- 31. 孙策（如鸢） -->
+<div id="hero31" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/孙策.jpg" alt="孙策" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">孙策</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">如鸢</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>江东小霸王，孙氏少主</p>
+        <p><strong>人设：</strong>直球热烈，武力值爆表，阳光犬系，一见钟情、不推拉，勇猛果决与纯情害羞并存</p>
+        <p><strong>生日：</strong>6.1</p>
+        <p><strong>热梗：</strong>孙策是滑动变阻器，广陵小葱花</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero31')">关闭</button>
+</div>
+
+<!-- 32. 袁基（如鸢） -->
+<div id="hero32" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/袁基.jpg" alt="袁基" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">袁基</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">如鸢</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>汝南袁氏嫡长公子,太仆</p>
+        <p><strong>人设：</strong>表面温润如玉，实则权谋高手、白切黑,温文尔雅、对称控、精通六艺(尤其是茶艺)，善以风雅邀约；缺爱敏感，道与爱欲交织，极端追求。</p>
+        <p><strong>生日：</strong>9.15</p>
+        <p><strong>热梗：</strong>殿下，巧遇</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero32')">关闭</button>
+</div>
+
+<!-- 33. 左慈（如鸢） -->
+<div id="hero33" class="hero-detail-modal">
+    <div class="flex items-center mb-6">
+        <img src="/web.video/男主/左慈.jpg" alt="左慈" class="w-24 h-24 rounded-full mr-4">
+        <div>
+            <h3 class="text-2xl font-bold text-purple-800">左慈</h3>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">如鸢</span>
+        </div>
+    </div>
+    <div class="text-gray-700 space-y-2">
+        <p><strong>身份：</strong>隐鸢阁阁主，仙人</p>
+        <p><strong>人设：</strong>广陵王师傅，活了很久，仙骨与魔性并存，清冷高冷、反差萌，开心冒蝴蝶、笑掉羽毛；遇事 “跑” 字诀，护短。</p>
+        <p><strong>生日：</strong>11.15</p>
+        <p><strong>热梗：</strong>喜脉梗，东汉魔童</p>
+    </div>
+    <button class="close-btn mt-4" onclick="closeHeroModal('hero33')">关闭</button>
+</div>
+
+<!-- 核心功能脚本 -->
+<script>
+    // 1. 视频音频控制
+    const bgVideo = document.getElementById('bg-video');
+    const audioControl = document.getElementById('audioControl');
+    const audioIcon = audioControl.querySelector('i');
+
+    audioControl.addEventListener('click', () => {
+        // 切换静音状态
+        bgVideo.muted = !bgVideo.muted;
+        // 切换图标
+        if (bgVideo.muted) {
+            audioIcon.classList.remove('fa-volume-up');
+            audioIcon.classList.add('fa-volume-mute');
+        } else {
+            audioIcon.classList.remove('fa-volume-mute');
+            audioIcon.classList.add('fa-volume-up');
+        }
+    });
+
+    // 2. 轮播图
+    const carouselSlide = document.querySelector('.carousel-slide');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const indicators = document.querySelectorAll('.indicator');
+    let currentIndex = 0;
+    const itemWidth = carouselItems.length > 0 ? carouselItems[0].clientWidth : 0;
+
+    function goToSlide(index) {
+        if (carouselSlide) {
+            carouselSlide.style.transform = `translateX(-${index * itemWidth}px)`;
+        }
+        if (indicators.length > 0) {
+            indicators.forEach((ind, i) => ind.classList.toggle('active', i === index));
+        }
+        currentIndex = index;
+    }
+
+    if (nextBtn) nextBtn.addEventListener('click', () => goToSlide((currentIndex + 1) % (carouselItems.length || 1)));
+    if (prevBtn) prevBtn.addEventListener('click', () => goToSlide((currentIndex - 1 + (carouselItems.length || 1)) % (carouselItems.length || 1)));
+    if (indicators.length > 0) {
+        indicators.forEach((ind, i) => ind.addEventListener('click', () => goToSlide(i)));
+    }
+
+
+    let autoPlay = setInterval(() => goToSlide((currentIndex + 1) % (carouselItems.length || 1)), 5000);
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', () => clearInterval(autoPlay));
+        carouselContainer.addEventListener('mouseleave', () => autoPlay = setInterval(() => goToSlide((currentIndex + 1) % (carouselItems.length || 1)), 5000));
+    }
+
+    // 3. 弹窗逻辑
+    function openModal(id) {
+        document.getElementById(id).classList.add('active');
+        document.getElementById('overlay').classList.add('active');
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
+        document.getElementById('overlay').classList.remove('active');
+    }
+    function openHeroModal(id) {
+        document.getElementById(id).classList.add('active');
+        document.getElementById('overlay').classList.add('active');
+    }
+    function closeHeroModal(id) {
+        document.getElementById(id).classList.remove('active');
+        document.getElementById('overlay').classList.remove('active');
+    }
+    function closeAllModals() {
+        document.querySelectorAll('.game-modal, .hero-detail-modal').forEach(modal => modal.classList.remove('active'));
+        document.getElementById('overlay').classList.remove('active');
+    }
+
+    // 4. 标签切换
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+    }
+
+    // 5. 男主搜索
+    function searchHeroes() {
+        const searchValue = document.getElementById('heroSearch').value.toLowerCase();
+        document.querySelectorAll('.hero-avatar-card').forEach(card => {
+            const name = card.dataset.name.toLowerCase();
+            const game = card.dataset.game.toLowerCase();
+            card.style.display = (name.includes(searchValue) || game.includes(searchValue)) ? 'block' : 'none';
+        });
+    }
+
+    // 6. 导航高亮
+    window.addEventListener('scroll', () => {
+        let current = '';
+        document.querySelectorAll('section').forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.scrollY >= sectionTop - 100) current = section.getAttribute('id');
+        });
+        document.querySelectorAll('nav a').forEach(link => {
+            link.classList.remove('text-purple-900', 'font-bold');
+            if (link.getAttribute('href') === `#${current}`) link.classList.add('text-purple-900', 'font-bold');
+        });
+    });
+    // 页面切换核心逻辑
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('nav a'); // 所有导航链接
+        const modules = document.querySelectorAll('.page-module'); // 所有页面模块
+
+        // 给每个导航链接加点击事件
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // 阻止默认锚点跳转（关键！）
+
+                // 1. 获取目标模块ID（从导航href里取，比如 href="#home" → 取"home"）
+                const targetId = this.getAttribute('href').slice(1);
+
+                // 2. 切换模块显示：隐藏所有，显示目标
+                modules.forEach(module => {
+                    module.classList.remove('active');
+                });
+                document.getElementById(targetId).classList.add('active');
+
+                // 3. 切换导航激活态
+                navLinks.forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+
+                // 4. 点击后滚动到页面顶部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    });
+    // 生成15个均匀分布、可移动的流星
+    function createMeteors() {
+        const container = document.getElementById('meteorContainer');
+        const meteorCount = 15; // 流星数量
+        const screenHeight = window.innerHeight;
+        const screenWidth = window.innerWidth;
+
+        // 均匀分布：把屏幕高度分成15等份，每个流星在不同高度
+        const heightStep = screenHeight / meteorCount;
+
+        for (let i = 0; i < meteorCount; i++) {
+            const meteor = document.createElement('div');
+            meteor.classList.add('meteor');
+
+            // 1. 均匀分布位置：y轴按等份排列，x轴随机在屏幕右侧
+            const yPos = i * heightStep; // 均匀分布的y坐标
+            const xPos = screenWidth + Math.random() * 500; // 右侧随机位置（避免同时出现）
+            meteor.style.top = `${yPos}px`;
+            meteor.style.left = `${xPos}px`;
+
+            // 2. 随机大小：长度50-150px，尾巴宽度1-3px
+            const length = 50 + Math.random() * 100;
+            const width = 1 + Math.random() * 2;
+            meteor.style.height = `${length}px`;
+            meteor.style.width = `${width}px`;
+
+            // 3. 随机动画时长：3-8秒（每个流星速度不同，更自然）
+            const duration = 3 + Math.random() * 5;
+            meteor.style.animationDuration = `${duration}s`;
+
+            // 4. 随机延迟：0-10秒（避免同时出发）
+            const delay = Math.random() * 10;
+            meteor.style.animationDelay = `${delay}s`;
+
+            container.appendChild(meteor);
+        }
+    }
+
+    // 页面加载完成后生成流星
+    window.addEventListener('load', createMeteors);
+</script>
+</body>
+</html>
